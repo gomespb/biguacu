@@ -1,0 +1,75 @@
+function doGet(e) {
+  const acesso = (e.parameter.acesso || "").trim();
+
+  const usuarios = {
+    "tiago252627": "Tiago",
+    "claudia26022025": "Claudia",
+    "obert505152": "Obert",
+    "boleta1981": "Admin"
+  };
+
+  const usuario = usuarios[acesso];
+
+  // ❌ acesso inválido
+  if (!usuario) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ erro: "Acesso negado" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const sheet = SpreadsheetApp.openById("1ZTT7ETr51d7CHdiZDbbeEQyGaU1TxGA1CtdQ-EzN3Jw");
+  const dados = sheet.getSheets()[0].getDataRange().getValues();
+
+  const resultado = [];
+
+  for (let i = 1; i < dados.length; i++) {
+    const linha = dados[i];
+
+    const barbeiro = linha[6];
+    if (!barbeiro) continue;
+
+    // 🔥 filtro correto (ignora maiúscula/minúscula)
+    if (usuario !== "Admin") {
+      if (barbeiro.toString().toLowerCase().trim() !== usuario.toLowerCase().trim()) {
+        continue;
+      }
+    }
+
+    const data = new Date(linha[1]);
+
+    let dataFormatada = "";
+    let ordem = 0;
+
+    if (!isNaN(data)) {
+      dataFormatada = Utilities.formatDate(
+        data,
+        "America/Sao_Paulo",
+        "dd/MM/yyyy HH:mm:ss"
+      );
+      ordem = data.getTime();
+    }
+
+    resultado.push({
+      data: dataFormatada,
+      barbeiro: barbeiro.toString(),
+      forma: linha[26] ? linha[26].toString() : "",
+      valor: Number(linha[27]) || 0,
+      ordem: ordem
+    });
+  }
+
+  // 🔥 ordenar mais recente primeiro
+  resultado.sort((a, b) => b.ordem - a.ordem);
+
+  // 🔥 remove campo auxiliar antes de enviar
+  const resposta = resultado.map(item => ({
+    data: item.data,
+    barbeiro: item.barbeiro,
+    forma: item.forma,
+    valor: item.valor
+  }));
+
+  return ContentService
+    .createTextOutput(JSON.stringify(resposta))
+    .setMimeType(ContentService.MimeType.JSON);
+}
