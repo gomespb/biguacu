@@ -119,6 +119,22 @@
   @media (min-width: 700px) {
     .cards { display: none; }
   }
+
+/* Container que agrupa os 3 botões em uma linha */
+.menu-grid {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-bottom: 15px;
+}
+
+/* Ajuste dos botões para ocuparem espaço igual */
+.menu-grid .botao {
+  flex: 1; /* Faz cada botão ter o mesmo tamanho */
+  margin: 0; /* Remove a margem padrão para não quebrar o alinhamento */
+  font-size: 13px; /* Diminui um pouco a fonte para caber em telas pequenas */
+  padding: 12px 5px;
+}
+  
 </style>
 </head>
 
@@ -137,6 +153,12 @@
     <a href="https://script.google.com/macros/s/AKfycbyUmGFaoIyeCTlSd2CIxpG-n_nPoFAnvddypBHMFAFvczgYRsUATocJX4tJvHK1qs0J/exec" class="botao">Cadastro/Pesquisa Assinaturas</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFIkKbnhaqvFeozVN2tBdM8vfZgEnxK8arZpFk0O40Meu4EA/viewform" class="botao">Formulário Renovação</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLScgDvw62k0VEaGwPQ9kQXJHMo3e-UlHtn9LcyTe9qgVyZlzkQ/viewform" class="botao">Comandas Biguaçu</a>
+<div class="menu-grid" id="menu-especial" style="display: none;">
+  <a href="LINK_1" class="botao">Botão 1</a>
+  <a href="LINK_2" class="botao">Botão 2</a>
+  <a href="LINK_3" class="botao">Botão 3</a>
+</div>
+    
   </div>
 
   <!-- MOBILE -->
@@ -158,6 +180,21 @@
 </div>
 
 <script>
+
+<script>
+  // Pega o código da URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const acessoAtual = urlParams.get('acesso');
+
+  // Lista de quem pode ver o menu especial
+  const autorizados = ['joseven1811']; 
+
+  // Se o usuário estiver na lista, mostramos o menu-grid
+  if (autorizados.includes(acessoAtual)) {
+    document.getElementById('menu-especial').style.display = 'flex'; // Usamos flex para alinhar
+  }
+</script>
+  
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbig_Y6_3q5H7JPwRgzFWCYa7I8dZzsees2Wdx9gxPYNfHN6NZiel9Am2n9bcRpRqYLw/exec";
 
 function parseDataBR(dataStr) {
