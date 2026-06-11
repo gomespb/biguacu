@@ -11,13 +11,19 @@
   .topo { display: flex; justify-content: flex-end; margin-bottom: 10px; font-size: 14px; }
 
   /* 🔘 MENU E BOTÕES */
-  .menu { margin-bottom: 0; }
-  .menu-grid { display: none; gap: 10px; margin-top: 8px; margin-bottom: 15px; }
+  .menu { margin-bottom: 8px; }
+  .menu-grid { 
+    display: none; 
+    gap: 8px; /* Reduzi levemente o gap para garantir alinhamento */
+    margin-bottom: 15px; 
+    width: 100%;
+    box-sizing: border-box;
+  }
   
   .botao { 
     display: block; 
     width: 100%; 
-    padding: 14px; 
+    padding: 14px 0; 
     margin: 8px 0; 
     background: linear-gradient(135deg, #19a7ce, #146c94); 
     color: #fff; 
@@ -26,12 +32,12 @@
     text-align: center; 
     font-weight: bold; 
     transition: 0.2s; 
+    box-sizing: border-box; /* Crucial para o alinhamento */
   }
   
-  /* Ajuste para que os botões do grid tenham a mesma altura dos de cima */
   .menu-grid .botao { 
     flex: 1; 
-    margin: 0; 
+    margin: 0; /* Remove margem que causava desalinhamento */
     padding: 14px 5px; 
     font-size: 13px; 
   }
